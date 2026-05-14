@@ -1,4 +1,4 @@
-package com.myname.mymodid;
+package com.loenaaaa.chinesecooking;
 
 import java.io.File;
 
