@@ -1,5 +1,6 @@
 package com.loenaaaa.chinesecooking;
 
+import com.loenaaaa.chinesecooking.utils.ModRegistryUtils;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -14,6 +15,12 @@ public class CommonProxy {
         ChineseCooking.LOG.info(Config.greeting);
         ChineseCooking.LOG.info("I am ChineseCooking at version " + Tags.VERSION);
         ModItems.init();
+        if(ModRegistryUtils.isHarvestcraftLoaded()){
+            ChineseCooking.LOG.info("Harvestcraft mod successfully detected!");
+        }
+        else{
+            ChineseCooking.LOG.info("Harvestcraft mod not detected! Some recipes may fail to load");
+        }
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)

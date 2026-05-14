@@ -13,16 +13,16 @@ public enum ModItems {
     ;
 
     private final Item item;
-    private final String name;
+    private final String registryName;
 
-    ModItems(Item item, String name) {
+    ModItems(Item item, String registryName) {
         this.item = item;
-        this.name = name;
+        this.registryName = registryName;
     }
 
     public static void init() {
         for (ModItems modItem : values()) {
-            GameRegistry.registerItem(modItem.item, modItem.name);
+            GameRegistry.registerItem(modItem.item, modItem.registryName);
         }
     }
 
