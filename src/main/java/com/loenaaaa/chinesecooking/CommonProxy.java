@@ -11,9 +11,9 @@ public class CommonProxy {
     // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
         Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
-
         ChineseCooking.LOG.info(Config.greeting);
         ChineseCooking.LOG.info("I am ChineseCooking at version " + Tags.VERSION);
+        ModItems.init();
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
