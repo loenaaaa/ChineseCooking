@@ -6,12 +6,17 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ModRegistryUtils {
+public class ItemRegistryUtils {
 
     public static String harvestcraftModID = "harvestcraft";
 
     public static boolean isHarvestcraftLoaded() {
         return Loader.isModLoaded(harvestcraftModID);
+    }
+
+    public static Item getChinesecookingBasicItem(String standardizedName) {
+        return new Item().setTextureName("chinesecooking:" + standardizedName)
+            .setUnlocalizedName(standardizedName);
     }
 
     public static Item getHarvestcraftItem(String registryName) {
