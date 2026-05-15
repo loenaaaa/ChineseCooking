@@ -16,7 +16,8 @@ public class ModRegistryUtils {
 
     public static Item getHarvestcraftItem(String registryName) {
         final Item harvestcraftItem = GameRegistry.findItem(harvestcraftModID, registryName);
-        if (harvestcraftItem == null) throw new RuntimeException("Could not find Harvestcraft item!");
+        if (harvestcraftItem == null)
+            throw new RuntimeException("Could not find Harvestcraft item " + registryName + " !");
         return harvestcraftItem;
     }
 
