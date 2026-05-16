@@ -17,7 +17,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
     acceptedMinecraftVersions = "[1.7.10]")
 public class ChineseCooking {
 
-    public static final String MODID = "loenaaaa";
+    public static final String MODID = "chinesecooking";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(
