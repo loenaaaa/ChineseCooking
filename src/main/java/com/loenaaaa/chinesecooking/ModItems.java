@@ -37,9 +37,8 @@ public enum ModItems {
     private final Item item;
     private final String registryName;
 
-    ModItems(String registryName) {
-        this.item = ItemRegistryUtils.getChinesecookingBasicItem(registryName);
-        this.registryName = registryName;
+    ModItems(String standardizedName) {
+        this(ItemRegistryUtils.getChinesecookingBasicItem(standardizedName), standardizedName);
     }
 
     ModItems(Item item, String registryName) {
