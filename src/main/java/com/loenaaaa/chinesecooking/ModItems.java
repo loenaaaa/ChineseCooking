@@ -29,6 +29,7 @@ public enum ModItems {
     CRISPY_CARP("crispy_carp"),
     CUMIN("cumin"),
     CURED_RADISH("cured_radish"),
+    CUTTING_BOARD("cutting_board"),
     DARK_SOY_SAUCE("dark_soy_sauce"),
     DRIED_SHRIMP("dried_shrimp"),
     DRIED_YELLOW_FLOWER("dried_yellow_flower"),
@@ -45,6 +46,7 @@ public enum ModItems {
     JINHUA_HAM("jinhua_ham"),
     LAMB_FAT("lamb_fat"),
     LAMB_SEASONING("lamb_seasoning"),
+    MEAT_HANGAR("meat_hangar"),
     NOODLES("noodles"),
     PORK_BONE("pork_bone"),
     PORK_FAT("pork_fat"),
@@ -58,6 +60,7 @@ public enum ModItems {
     SALTWATER("saltwater"),
     SESAME_OIL("sesame_oil"),
     TOFU_SKIN("tofu_skin"),
+    WOK("wok"),
     // spotless:on
     ;
 

@@ -16,6 +16,7 @@ public class CommonProxy {
         ChineseCooking.LOG.info(Config.greeting);
         ChineseCooking.LOG.info("I am ChineseCooking at version " + Tags.VERSION);
         ModItems.init();
+        ModBlocks.init();
         if (ItemRegistryUtils.isHarvestcraftLoaded()) {
             ChineseCooking.LOG.info("Harvestcraft mod successfully detected!");
         } else {
