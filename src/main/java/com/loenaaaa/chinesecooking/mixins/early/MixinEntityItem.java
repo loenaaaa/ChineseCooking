@@ -2,7 +2,6 @@ package com.loenaaaa.chinesecooking.mixins.early;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -12,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.loenaaaa.chinesecooking.ModItems;
+import com.loenaaaa.chinesecooking.utils.ItemRegistryUtils;
 
 @Mixin(value = EntityItem.class)
 public abstract class MixinEntityItem extends Entity {
@@ -25,7 +25,7 @@ public abstract class MixinEntityItem extends Entity {
         if (source == DamageSource.anvil) {
             EntityItem theEntityItem = (EntityItem) (Object) this;
             if (theEntityItem.getEntityItem()
-                .getItem() != Items.iron_ingot) return;
+                .getItem() != ItemRegistryUtils.getHarvestcraftItem("potItem")) return;
             theEntityItem.getDataWatcher()
                 .getWatchableObjectItemStack(10)
                 .func_150996_a(ModItems.WOK.getItem());
