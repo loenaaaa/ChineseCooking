@@ -272,7 +272,7 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
             if (outputStacks[i] == null) {
                 outputStacks[i] = stacksToIncrease.get(i);
             } else {
-                outputStacks[i].stackSize = Math.min(64,outputStacks[i].stackSize+stacksToIncrease.get(i).stackSize);
+                outputStacks[i].stackSize = Math.min(64, outputStacks[i].stackSize + stacksToIncrease.get(i).stackSize);
             }
         }
         return true;
