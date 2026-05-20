@@ -24,7 +24,7 @@ public abstract class MixinEntityItem extends Entity {
     private void chineseCooking$convertIntoWok(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (source == DamageSource.anvil) {
             EntityItem theEntityItem = (EntityItem) (Object) this;
-            if (theEntityItem.getEntityItem()
+            if (!ItemRegistryUtils.isHarvestcraftLoaded() || theEntityItem.getEntityItem()
                 .getItem() != ItemRegistryUtils.getHarvestcraftItem("potItem")) return;
             theEntityItem.getDataWatcher()
                 .getWatchableObjectItemStack(10)

@@ -128,3 +128,7 @@ item.zeng_beng_carp.name=Zeng Beng Carp
 tile.barrel.name=Wooden Barrel
 tile.extractor.name=Extractor
 tile.stove.name=Cooking Stove
+
+gui.tooltip.barrel=Wooden Barrel
+gui.tooltip.extractor=Extractor
+gui.tooltip.stove=Cooking Stove

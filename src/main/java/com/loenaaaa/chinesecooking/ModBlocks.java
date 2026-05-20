@@ -4,26 +4,24 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import com.loenaaaa.chinesecooking.common.blocks.BlockCookingMachineStandard;
+import com.loenaaaa.chinesecooking.common.blocks.BlockCookingStove;
+import com.loenaaaa.chinesecooking.common.blocks.BlockExtractor;
+import com.loenaaaa.chinesecooking.common.blocks.BlockWoodenBarrel;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ModBlocks {
 
     // spotless:off
-    BARREL("barrel", false),
-    EXTRACTOR("extractor",false),
-    STOVE("stove",true),
+    BARREL(new BlockWoodenBarrel(), "barrel"),
+    EXTRACTOR(new BlockExtractor(),"extractor"),
+    STOVE(new BlockCookingStove(),"stove"),
     //spotless:on
     ;
 
     private final Block block;
 
     private final String registryName;
-
-    ModBlocks(String standardizedName, boolean hasFront) {
-        this(new BlockCookingMachineStandard(standardizedName, hasFront), standardizedName);
-    }
 
     ModBlocks(Block block, String registryName) {
         this.block = block;

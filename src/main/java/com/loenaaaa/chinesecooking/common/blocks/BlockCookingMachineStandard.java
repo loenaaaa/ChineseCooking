@@ -3,11 +3,13 @@ package com.loenaaaa.chinesecooking.common.blocks;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockCookingMachineStandard extends BlockContainer {
+import com.cleanroommc.modularui.factory.GuiFactories;
+
+public abstract class BlockCookingMachineStandard extends BlockContainer {
 
     private String standardizedName;
 
@@ -24,6 +26,7 @@ public class BlockCookingMachineStandard extends BlockContainer {
         this.setBlockName(standardizedName);
         this.setBlockTextureName("chinesecooking:" + standardizedName);
         this.hasFrontTexture = hasFront;
+        this.standardizedName = standardizedName;
     }
 
     public boolean isHasFrontTexture() {
@@ -44,8 +47,12 @@ public class BlockCookingMachineStandard extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return null; // TODO: Once TileEntities for inheritors are finished, this method should be removed and the class
-                     // should be made abstract.
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer playerIn, int side, float hitX,
+        float hitY, float hitZ) {
+        if (!worldIn.isRemote) {
+            GuiFactories.tileEntity()
+                .open(playerIn, x, y, z);
+        }
+        return true;
     }
 }

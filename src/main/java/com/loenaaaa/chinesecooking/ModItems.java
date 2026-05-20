@@ -161,6 +161,10 @@ public enum ModItems {
         return this.item;
     }
 
+    public ItemStack getItemStack() {
+        return new ItemStack(this.item);
+    }
+
     public ItemStack getItemStack(int count) {
         return new ItemStack(this.item, count);
     }
