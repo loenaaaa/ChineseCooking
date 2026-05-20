@@ -17,10 +17,16 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
         this.unlocalizedTitle = "gui.tooltip." + unlocalizedTitle;
     }
 
+    static {
+        addMapping(TileEntityCookingMachineStandard.class, "cookingMachineStandard");
+    }
+
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         return new ModularPanel("chinesecooking:test_tile").child(
             IKey.lang(unlocalizedTitle)
-                .asWidget());
+                .asWidget()
+                .top(6)
+                .leftRel(0.5F));
     }
 }
