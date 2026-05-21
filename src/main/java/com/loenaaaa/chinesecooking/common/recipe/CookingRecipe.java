@@ -14,8 +14,8 @@ public class CookingRecipe {
     public List<ItemStack> outputItems;
     /** The recipe time in TICKS */
     public int recipeTime;
-    public int minTemp = 50;
-    public int maxTemp = 100;
+    public int minTemp = 2000;
+    public int maxTemp = 20000;
 
     CookingRecipe() {
         inputItems = new ArrayList<>();

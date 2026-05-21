@@ -45,6 +45,11 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
     private int recipeRemainingTime = 0;
     private int recipeIndexInList;
 
+    public static final UITexture COOKING_PROGRESS = UITexture.builder()
+        .location(ChineseCooking.MODID, "gui/progress_cooking")
+        .imageSize(16, 24)
+        .build();
+
     public TileEntityCookingMachineStandard(String unlocalizedTitle, int ingredientSlotAmount, int outputSlotAmount) {
         this.unlocalizedTitle = "gui.tooltip." + unlocalizedTitle;
         this.ingredientSlotAmount = ingredientSlotAmount;
@@ -83,7 +88,7 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
                 .accessibility(false, true);
         }
 
-        return new ModularPanel("chinesecooking:test_tile").size(200, 200)
+        return new ModularPanel("chinesecooking:test_tile").size(200, 220)
             .bindPlayerInventory()
             .child(
                 IKey.lang(unlocalizedTitle)
@@ -105,11 +110,8 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
     private IWidget getRecipeInfoWidget(PanelSyncManager syncManager) {
         FloatSyncValue progressTimeSyncer = syncManager.findSyncHandler("progressTimeSyncer", FloatSyncValue.class);
         FloatSyncValue totalTimeSyncer = syncManager.findSyncHandler("totalTimeSyncer", FloatSyncValue.class);
-        final UITexture COOKING_PROGRESS = UITexture.builder()
-            .location(ChineseCooking.MODID, "gui/progress_cooking")
-            .imageSize(16, 24)
-            .build();
         return Flow.column()
+            .width(80)
             .childPadding(2)
             .child(
                 IKey.lang("gui.tooltip.recipe_time")
@@ -188,7 +190,7 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
         return true;
     }
 
-    private boolean additionalRecipeChecks(CookingRecipe cookingRecipe) {
+    protected boolean additionalRecipeChecks(CookingRecipe cookingRecipe) {
         return true;
     }
 
