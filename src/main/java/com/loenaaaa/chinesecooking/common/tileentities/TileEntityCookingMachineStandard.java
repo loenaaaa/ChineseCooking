@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.api.widget.IWidget;
+import com.cleanroommc.modularui.drawable.UITexture;
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
@@ -21,14 +22,17 @@ import com.cleanroommc.modularui.utils.item.InvWrapper;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 import com.cleanroommc.modularui.value.sync.FloatSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.layout.Grid;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.cleanroommc.modularui.widgets.slot.SlotGroup;
+import com.loenaaaa.chinesecooking.ChineseCooking;
 import com.loenaaaa.chinesecooking.common.recipe.CookingRecipe;
 
-public class TileEntityCookingMachineStandard extends TileEntity implements IGuiHolder<PosGuiData>, IInventory {
+public abstract class TileEntityCookingMachineStandard extends TileEntity
+    implements IGuiHolder<PosGuiData>, IInventory {
 
     private final String unlocalizedTitle;
     private final ItemStack[] ingredientStacks;
@@ -104,14 +108,26 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
     private IWidget getRecipeInfoWidget(PanelSyncManager syncManager) {
         FloatSyncValue progressTimeSyncer = syncManager.findSyncHandler("progressTimeSyncer", FloatSyncValue.class);
         FloatSyncValue totalTimeSyncer = syncManager.findSyncHandler("totalTimeSyncer", FloatSyncValue.class);
+        final UITexture COOKING_PROGRESS = UITexture.builder()
+            .location(ChineseCooking.MODID, "gui/progress_cooking")
+            .imageSize(16, 24)
+            .build();
         return Flow.column()
             .childPadding(2)
             .child(
                 IKey.lang("gui.tooltip.recipe_time")
                     .asWidget())
             .child(
+                new ProgressWidget()
+                    .value(new FloatSyncValue(() -> (float) progressTimeSyncer.getValue() / totalTimeSyncer.getValue()))
+                    .texture(COOKING_PROGRESS, 16)
+                    .direction(ProgressWidget.Direction.UP)
+                    .size(24, 24))
+            .child(
                 IKey.dynamic(
-                    () -> progressTimeSyncer.getStringValue() + "s / " + totalTimeSyncer.getStringValue() + "s")
+                    () -> String.format("%.1f", progressTimeSyncer.getValue()) + "s / "
+                        + String.format("%.1f", totalTimeSyncer.getValue())
+                        + "s")
                     .asWidget())
             .top(35)
             .leftRel(0.5F);
@@ -166,7 +182,7 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
             }
         }
         if (!outputItems(cookingRecipe.outputItems.toArray(new ItemStack[0]), true)) return false;
-        if (!additionalRecipeChecks()) return false;
+        if (!additionalRecipeChecks(cookingRecipe)) return false;
         isRunningRecipe = true;
         for (int i = 0; i < ingredientSlotAmount; i++) {
             if (!stacksToDecrease.containsKey(i)) continue;
@@ -175,13 +191,19 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
         return true;
     }
 
-    private boolean additionalRecipeChecks() {
+    private boolean additionalRecipeChecks(CookingRecipe cookingRecipe) {
         return true;
     }
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         ingredientStacks[index] = stack;
+        if (worldObj.isRemote) return;
+        markDirty();
+        checkForRecipes();
+    }
+
+    private void checkForRecipes() {
         if (isRunningRecipe) return;
         if (recipeList == null) return;
         for (int i = 0; i < recipeList.size(); i++) {
@@ -241,6 +263,7 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
         }
         isRunningRecipe = compound.getBoolean("isRunningRecipe");
         recipeRemainingTime = compound.getInteger("recipeRemainingTime");
+        recipeTotalTime = compound.getInteger("recipeTotalTime");
         recipeIndexInList = compound.getInteger("recipeIndexInList");
     }
 
@@ -265,6 +288,7 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
         }
         compound.setBoolean("isRunningRecipe", isRunningRecipe);
         compound.setInteger("recipeRemainingTime", recipeRemainingTime);
+        compound.setInteger("recipeTotalTime", recipeTotalTime);
         compound.setInteger("recipeIndexInList", recipeIndexInList);
     }
 
@@ -299,7 +323,7 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
         }
         if (isTest) return true;
         for (int i = 0; i < outputSlotAmount; i++) {
-            if (stacksToIncrease.containsKey(i)) continue;
+            if (!stacksToIncrease.containsKey(i)) continue;
             if (outputStacks[i] == null) {
                 outputStacks[i] = stacksToIncrease.get(i);
             } else {
@@ -311,6 +335,7 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
 
     @Override
     public void updateEntity() {
+        if (worldObj.isRemote) return;
         if (!isRunningRecipe) return;
         recipeRemainingTime--;
         markDirty();
@@ -319,5 +344,6 @@ public class TileEntityCookingMachineStandard extends TileEntity implements IGui
         recipeRemainingTime = 0;
         recipeTotalTime = 0;
         outputItems(recipeList.get(recipeIndexInList).outputItems.toArray(new ItemStack[0]), false);
+        checkForRecipes();
     }
 }
