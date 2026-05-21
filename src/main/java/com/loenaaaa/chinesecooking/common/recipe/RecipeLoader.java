@@ -22,5 +22,12 @@ public class RecipeLoader {
                 ItemRegistryUtils.getHarvestcraftItemStack("shrimprawItem"),
                 ModItems.DRIED_SHRIMP.getItemStack(),
                 FURNACE_RECIPES_EXP);
+        CookingRecipe.CookingRecipeLists.fermenterRecipes.add(
+            new CookingRecipe()
+                .addInput(
+                    ItemRegistryUtils.getHarvestcraftItemStack("gingerItem"),
+                    ItemRegistryUtils.getHarvestcraftItemStack("saltItem"))
+                .addOutput(ModItems.AGED_GINGER.getItemStack())
+                .setRecipeTime(1000));
     }
 }

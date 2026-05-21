@@ -17,6 +17,11 @@ public class CookingRecipe {
     public int minTemp = 50;
     public int maxTemp = 100;
 
+    CookingRecipe() {
+        inputItems = new ArrayList<>();
+        outputItems = new ArrayList<>();
+    }
+
     CookingRecipe addInput(ItemStack... inputs) {
         this.inputItems.addAll(Arrays.asList(inputs));
         return this;
@@ -46,7 +51,8 @@ public class CookingRecipe {
 
     public static class CookingRecipeLists {
 
-        public static ArrayList<CookingRecipe> fermenterRecipes, extractorRecipes, boilingRecipes, fryingRecipes,
-            roastingRecipes, stuffingRecipes;
+        public static ArrayList<CookingRecipe> fermenterRecipes = new ArrayList<>(),
+            extractorRecipes = new ArrayList<>(), boilingRecipes = new ArrayList<>(), fryingRecipes = new ArrayList<>(),
+            roastingRecipes = new ArrayList<>(), stuffingRecipes = new ArrayList<>();
     }
 }

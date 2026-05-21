@@ -132,3 +132,4 @@ tile.stove.name=Cooking Stove
 gui.tooltip.barrel=Wooden Barrel
 gui.tooltip.extractor=Extractor
 gui.tooltip.stove=Cooking Stove
+gui.tooltip.recipe_time=Recipe Time:
