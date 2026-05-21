@@ -39,21 +39,18 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
     private final ItemStack[] outputStacks;
     private final int ingredientSlotAmount;
     private final int outputSlotAmount;
-    private final ArrayList<CookingRecipe> recipeList;
 
     private boolean isRunningRecipe = false;
     private int recipeTotalTime = 0;
     private int recipeRemainingTime = 0;
     private int recipeIndexInList;
 
-    public TileEntityCookingMachineStandard(String unlocalizedTitle, int ingredientSlotAmount, int outputSlotAmount,
-        ArrayList<CookingRecipe> recipeList) {
+    public TileEntityCookingMachineStandard(String unlocalizedTitle, int ingredientSlotAmount, int outputSlotAmount) {
         this.unlocalizedTitle = "gui.tooltip." + unlocalizedTitle;
         this.ingredientSlotAmount = ingredientSlotAmount;
         this.outputSlotAmount = outputSlotAmount;
         this.ingredientStacks = new ItemStack[ingredientSlotAmount];
         this.outputStacks = new ItemStack[outputSlotAmount];
-        this.recipeList = recipeList;
     }
 
     static {
@@ -203,11 +200,13 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
         checkForRecipes();
     }
 
+    public abstract ArrayList<CookingRecipe> getRecipeList();
+
     private void checkForRecipes() {
         if (isRunningRecipe) return;
-        if (recipeList == null) return;
-        for (int i = 0; i < recipeList.size(); i++) {
-            CookingRecipe cookingRecipe = recipeList.get(i);
+        if (getRecipeList() == null) return;
+        for (int i = 0; i < getRecipeList().size(); i++) {
+            CookingRecipe cookingRecipe = getRecipeList().get(i);
             if (!checkRecipeAndConsume(cookingRecipe)) return;
             recipeIndexInList = i;
             recipeRemainingTime = cookingRecipe.recipeTime;
@@ -343,7 +342,7 @@ public abstract class TileEntityCookingMachineStandard extends TileEntity
         isRunningRecipe = false;
         recipeRemainingTime = 0;
         recipeTotalTime = 0;
-        outputItems(recipeList.get(recipeIndexInList).outputItems.toArray(new ItemStack[0]), false);
+        outputItems(getRecipeList().get(recipeIndexInList).outputItems.toArray(new ItemStack[0]), false);
         checkForRecipes();
     }
 }
